@@ -1,8 +1,14 @@
 //make a grid
 const container = document.getElementById("container");
-var gridSquares = 0;
-let eraserOn = 0;
-makeRows(16);
+let color = "black"
+var gridSquares;
+var btnContainer = document.getElementById("colors");
+var btns = btnContainer.getElementsByClassName("color");
+
+
+
+makeRows(50);
+blackPen()
 
 function makeRows(gridSquares) {
         container.style.setProperty('--grid-rows', gridSquares);
@@ -14,43 +20,75 @@ function makeRows(gridSquares) {
 };
 
 
-//Make the grid squares black when passing over them
-var gridItems = document.querySelectorAll("div.grid-item");
 
-gridItems.forEach((gridItems) => {
-  gridItems.addEventListener('mouseover', (e) => {
-    gridItems.style.backgroundColor = 'black';
+//BUTTONS--------------------------------------------------
+const blackPenSelect = document.querySelector("#black")
+blackPenSelect.addEventListener('click', blackPen);
+
+const whitePenSelect = document.querySelector("#white")
+whitePenSelect.addEventListener('click', whitePen);
+
+const colorPenSelect = document.querySelector("#rainbow")
+colorPenSelect.addEventListener('click', colorPen);
+
+
+
+const gridSize = document.querySelector("#gridSize")
+gridSize.addEventListener('click', function() {
+    gridSquares=prompt('How many squares wide/tall?');
+    clearGrid();
+    makeRows(gridSquares);
+})
+
+const clearButton = document.querySelector("#clear-button")
+clearButton.addEventListener('click', clearGrid);
+
+//BUTTONS END--------------------------------------------------
+
+
+
+
+
+// Active to colors------------------------------------------------------
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
   });
-});
+} 
 
-
- 
 
 function clearGrid() {
+    const gridItems = document.querySelectorAll("div.grid-item");
     gridItems.forEach((gridItems) => {
         gridItems.style.backgroundColor = 'transparent';
     });
 }
 
-const clearButton = document.querySelector("#clear-button")
-clearButton.addEventListener('click', clearGrid);
-
-
-const gridSize = document.querySelector("#grid-size")
-
-gridSize.addEventListener('click', (e) => {
-    clearGrid();
-    let promptAnswer = prompt('Grid size?');
-    makeRows(promptAnswer);
-});
-
-
-const eraser = document.querySelector("#eraser")
-
-eraser.addEventListener("click", () => {
-    gridItems.forEach((square) => {
-        square.onmouseover = () => square.removeAttribute("style");
+function blackPen() {
+    const gridItems = document.querySelectorAll("div.grid-item");
+    gridItems.forEach((gridItem) => {
+        gridItem.addEventListener('mouseover', (e) => {
+          gridItem.style.backgroundColor = 'black';
+        });
     });
-})
+}
 
+function whitePen() {
+    const gridItems = document.querySelectorAll("div.grid-item");
+    gridItems.forEach((gridItem) => {
+        gridItem.addEventListener('mouseover', (e) => {
+          gridItem.style.backgroundColor = 'transparent';
+        });
+    });
+}
 
+function colorPen() {
+    const gridItems = document.querySelectorAll("div.grid-item");
+    gridItems.forEach((gridItem) => {
+        gridItem.addEventListener('mouseover', (e) => {
+          gridItem.style.backgroundColor = 'transparent';
+        });
+    });
+}
